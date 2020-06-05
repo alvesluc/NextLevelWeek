@@ -104,3 +104,42 @@ form button {
 form button:hover {
     background-color: #2FB86E;
 }
+
+.items-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 16px;
+}
+
+.items-grid li {
+    background-color: #F5F5F5;
+    list-style: none;
+    border: 2px solid #F0F0F5;
+    border-radius: 8px;
+    padding: 32px 24px 16px;
+    height: 180px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    text-align: center;
+    cursor: pointer;
+}
+
+.items-grid li span {
+    margin-top: 12px;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    color: var(--title-color);
+}
+
+.items-grid li.selected {
+    background-color: #E1FAEC;
+    border: 2px solid #34CB79;
+}
+
+.items-grid li img,
+.items-grid li span {
+    pointer-events: none;
+}
