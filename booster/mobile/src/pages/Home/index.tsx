@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from "react";
 import { Feather as Icon } from '@expo/vector-icons'
 import { View, ImageBackground, Text, Image, StyleSheet } from 'react-native';
 import { RectButton } from 'react-native-gesture-handler'
@@ -6,6 +6,10 @@ import { useNavigation } from "@react-navigation/native";
 
 const Home = () => {
   const navigation = useNavigation();
+
+  useEffect(() => {
+
+  }, []);
 
   function handleNavigateToPoints() {
     navigation.navigate('Points');

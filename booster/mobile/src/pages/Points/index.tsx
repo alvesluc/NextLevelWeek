@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Constants from "expo-constants";
 import { Feather as Icon } from "@expo/vector-icons";
 import { View, StyleSheet, Image, Text, ScrollView } from "react-native";
@@ -6,9 +6,24 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import { useNavigation } from "@react-navigation/native";
 import MapView, { Marker } from "react-native-maps";
 import { SvgUri } from "react-native-svg";
+import api from '../../services/api'
+
+interface Item {
+  id: number;
+  title: string;
+  image_url: string;
+}
 
 const Points = () => {
+
+  const [items, setItems] = useState<Item[]>([]);
   const navigation = useNavigation();
+
+  useEffect(() => {
+    api.get('items').then(response => {
+      setItems(response.data);
+    });
+  }, []);
 
   function handleNavigateBack() {
     navigation.goBack();
@@ -42,9 +57,9 @@ const Points = () => {
               latitude: -7.5577909,
               longitude: -35.0057688,
             }} onPress={handleNavigateToDetail}>
-              <View style={styles.mapMarkerContainer}> 
-              <Image style={styles.mapMarkerImage} source={{ uri: 'https://images.unsplash.com/photo-1518792528501-352f829886dc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80' }} />
-              <Text style={styles.mapMarkerTitle}>Mercado</Text> 
+              <View style={styles.mapMarkerContainer}>
+                <Image style={styles.mapMarkerImage} source={{ uri: 'https://images.unsplash.com/photo-1518792528501-352f829886dc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80' }} />
+                <Text style={styles.mapMarkerTitle}>Mercado</Text>
               </View>
             </Marker>
           </MapView>
@@ -56,40 +71,12 @@ const Points = () => {
           showsHorizontalScrollIndicator={false}
           contentContainerStyle={{ paddingHorizontal: 20 }}
         >
-          <TouchableOpacity style={styles.item}>
-            <SvgUri width={42} height={42} uri="" />
-            <Text style={styles.itemTitle}>Lâmpadas </Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity style={styles.item}>
-            <SvgUri width={42} height={42} uri="" />
-            <Text style={styles.itemTitle}>Lâmpadas </Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity style={styles.item}>
-            <SvgUri width={42} height={42} uri="" />
-            <Text style={styles.itemTitle}>Lâmpadas </Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity style={styles.item}>
-            <SvgUri width={42} height={42} uri="" />
-            <Text style={styles.itemTitle}>Lâmpadas </Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity style={styles.item}>
-            <SvgUri width={42} height={42} uri="" />
-            <Text style={styles.itemTitle}>Lâmpadas </Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity style={styles.item}>
-            <SvgUri width={42} height={42} uri="" />
-            <Text style={styles.itemTitle}>Lâmpadas </Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity style={styles.item}>
-            <SvgUri width={42} height={42} uri="" />
-            <Text style={styles.itemTitle}>Lâmpadas </Text>
-          </TouchableOpacity>
+          {items.map(item => {
+            <TouchableOpacity key={String(item.id)} style={styles.item}>
+              <SvgUri width={42} height={42} uri={item.image_url} />
+              <Text style={styles.itemTitle}>{item.title} </Text>
+            </TouchableOpacity>
+          })}
         </ScrollView>
 
       </View>
